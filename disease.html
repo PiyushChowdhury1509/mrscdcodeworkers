@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recommended Diseases</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        h1 {
+            color: rgb(7, 9, 145);
+            padding: 20px;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+
+        #diseaseList {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .diseaseItem {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+        }
+
+        .diseaseName {
+            font-weight: bold;
+        }
+
+        .diseaseDescription {
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <h1>Recommended Diseases</h1>
+
+    <div id="diseaseList"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const selectedSymptom = urlParams.get('symptom');
+            const recommendedDiseases = getRecommendedDiseases(selectedSymptom);
+
+            renderDiseases(recommendedDiseases);
+
+            function getRecommendedDiseases(symptom) {
+                const diseases = {
+                    "Abdomen pain, night sweats and fever": [
+                        { name: "Gastroenteritis", description: "This common bacterial infection of the stomach and intestines can cause symptoms like nausea, vomiting, and temporary loss of appetite. It tends to improve within a few days with proper rest and hydration." },
+                        { name: "Food Poisoning", description: "Consuming contaminated food can lead to food poisoning, resulting in symptoms such as nausea, vomiting, and decreased appetite. Most cases are not severe and resolve on their own, but some cases require medical attention." },
+                        { name: "Stress or Anxiety", description: "Emotional stress can sometimes manifest as physical symptoms including nausea and reduced appetite. Managing stress through relaxation techniques may help alleviate these symptoms." },
+                        { name: "Gastroesophageal Reflux disease(GERD)", description: "GERD occurs when stomach acid flows back into the esophagus causing irritation. Symptoms may include heartburn and a decreased appetite. Lifestyle changes and medications can often manage GERD efficiently." },
+                        { name: "Gallbladder disease", description: "Conditions such as gallstones can lead to symptoms like vomiting and loss of appetite. Gallbladder issues may require medical intervention, and treatment options may range from dietary changes to surgery." }
+                    ],
+                    "Feeling like to vomit and lack of appetite": [
+                        { name: "Viral Gastroenteritis (Stomach Flu)", description: "A common viral infection affecting the stomach and intestines, leading to symptoms like nausea, vomiting, and a temporary loss of appetite. Typically, it resolves on its own within a few days with rest and proper hydration." },
+                        { name: "Peptic Ulcer Disease", description: "Ulcers in the stomach or small intestine can cause nausea, vomiting, and a lack of appetite. Treatment may involve medications to reduce stomach acid and, in some cases, antibiotics." },
+                        { name: "Food Poisoning", description: "Consuming contaminated food can result in food poisoning, causing symptoms such as nausea, vomiting, and a decreased appetite. Most cases are mild and self-limiting, but severe cases may require medical attention." },
+                        { name: "Gastrointestinal Disorders (e.g., Inflammatory Bowel Disease)", description: "Conditions like Crohn's disease or ulcerative colitis can cause persistent gastrointestinal symptoms, including nausea and appetite loss. These conditions may require ongoing medical management and monitoring." },
+                        { name: "Stress or Anxiety", description: "Emotional stress or anxiety can manifest physically, leading to symptoms like nausea and a reduced appetite. Managing stress through relaxation techniques or seeking professional help may help alleviate these symptoms." }
+                    ],
+                    "Dark urine, yellowing of skin & eyes and pale stools": [
+                        { name: "Jaundice (Icterus)", description: "Yellowing of the skin and eyes due to an excess of bilirubin, a yellow pigment produced during the breakdown of red blood cells." },
+                        { name: "Liver Infections", description: "Infections affecting the liver can lead to inflammation and impaired liver function." },
+                        { name: "Biliary Obstruction", description: "Blockage of the bile ducts, which can affect the flow of bile and result in jaundice." },
+                        { name: "Liver Cirrhosis", description: "Scarring of the liver tissue, often resulting from long-term liver damage." },
+                        { name: "Hemolytic Anemia", description: "Accelerated breakdown of red blood cells, leading to an increase in bilirubin levels." }
+                    ],
+                    "Bloating, burning stomach pain, weight loss and Indigestion": [
+                        { name: "Gastritis", description: "Inflammation of the stomach lining." },
+                        { name: "Peptic Ulcer Disease", description: "Open sores that develop on the inner lining of the stomach or the upper part of the small intestine." },
+                        { name: "Gastroesophageal Reflux Disease (GERD)", description: "Chronic condition where stomach acid flows back into the esophagus, causing irritation." },
+                        { name: "Inflammatory Bowel Disease (Crohn's Disease or Ulcerative Colitis)", description: "Chronic inflammation of the gastrointestinal tract." },
+                        { name: "Celiac Disease", description: "Autoimmune disorder triggered by the ingestion of gluten, leading to damage in the small intestine." }
+                    ],
+                    "Sustained fever, constipation, rash and enlarged liver": [
+                        { name: "Autoimmune Diseases", description: "Conditions where the immune system mistakenly attacks the body's own tissues." },
+                        { name: "Inflammatory Bowel Disease (IBD)", description: "Chronic inflammation of the gastrointestinal tract." },
+                        { name: "Drug Reaction or Allergic Response", description: "Some medications or allergic reactions can lead to a combination of symptoms." },
+                        { name: "Hemophagocytic Lymphohistiocytosis (HLH)", description: "A rare disorder characterized by an overactive immune system." },
+                        { name: "Toxic Megacolon", description: "A severe complication of inflammatory bowel disease, leading to the enlargement of the colon." }
+                    ],
+                    "Increased thirst, frequent urination, blurred vision and numbness in hands": [
+                        { name: "Diabetes Mellitus", description: "A chronic condition characterized by high blood sugar levels." },
+                        { name: "Diabetes Insipidus", description: "A rare disorder involving an inability to properly regulate water balance in the body." },
+                        { name: "Hyperglycemia (High Blood Sugar)", description: "Elevated levels of glucose in the blood, often associated with uncontrolled diabetes." },
+                        { name: "Peripheral Neuropathy", description: "Nerve damage that can cause numbness, tingling, and pain, often in the hands and feet." }
+                    ]
+                };
+
+                return diseases[symptom] || [];
+            }
+
+            function renderDiseases(diseasesArray) {
+                const diseaseListContainer = document.getElementById("diseaseList");
+                diseaseListContainer.innerHTML = "";
+
+                if (diseasesArray.length === 0) {
+                    diseaseListContainer.innerHTML = "<p>No diseases found for selected symptoms.</p>";
+                    return;
+                }
+
+                diseasesArray.forEach((disease) => {
+                    const div = document.createElement("div");
+                    div.classList.add("diseaseItem");
+
+                    const name = document.createElement("div");
+                    name.classList.add("diseaseName");
+                    name.textContent = disease.name;
+
+                    const description = document.createElement("div");
+                    description.classList.add("diseaseDescription");
+                    description.textContent = disease.description;
+
+                    div.appendChild(name);
+                    div.appendChild(description);
+
+                    diseaseListContainer.appendChild(div);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
